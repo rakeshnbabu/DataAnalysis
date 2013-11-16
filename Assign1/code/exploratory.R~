@@ -1,0 +1,52 @@
+# Load in data
+source("init.R")
+source("code/loadData.R")
+
+# Check the size of the data set; 14 cols x 2500 rows
+dim(loansData)
+
+# Get the column names
+names(loansData)
+
+#Try an exploratory plot; comes out as garbage. Need to clean the data
+plot(loansData$Interest.Rate, loansData$FICO.Range)
+
+# See if I can get a handle on the data types; not useful
+summary(loansData)
+str(loansData)
+
+# See if I can get a handle on a single type of data
+summary(loansData$Interest.Rate)
+str(loansData$Interest.Rate)
+
+##Convert Interest Rate to a numeric variable
+tmp <- as.numeric(sub("%","",as.character(loansData$Interest.Rate)))/100
+extraData <- data.frame(tmp)
+head(extraData$Interest.Rate)
+
+# Double-check the structure of the FICO score
+str(loansData$FICO.Range)
+
+# Let's see if we can't find a relation between FICO score and Interest
+plot(extraData$Interest.Rate, loansData$FICO.Range)
+axis(2,at=seq(1,40,by=5),labels=as.character(seq(640,825,by=25)))
+dev.copy(png,'figures/plot01-InterestRate-vs-FICO-range-RAW-exploratory33.png')
+dev.off()
+
+# This plot shows a negative relation between FICO-score and interest rate, which we would expect.
+# After all, the lower the score, the less trustworthy the lender, and the higher the rate.
+
+
+# Let's see how interest rate varies by state
+plot(loansData$State, extraData$Interest.Rate, axes=FALSE)
+axis(1,at=1:51,labels=levels(loansData$State))
+dev.copy(png, 'figures/plot02-InterestRate-vs-State-RAW-exploratory40.png')
+dev.off()
+
+# Let's see how interest rate varies by amount requested
+plot(loansData$Amount.Requested, extraData$Interest.Rate)
+dev.copy(png, 'figures/plot03-InterestRate-vs-amt-requested-exploratory40.png')
+dev.off()
+
+# Let's start plotting histograms to see what's happening
+hist(extraData$Interest.Rate)
