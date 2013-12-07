@@ -1,3 +1,5 @@
+library(ggplot2)
+
 # Load in data
 source("init.R")
 source("code/loadData.R")
@@ -61,4 +63,43 @@ abline(a=mean(extraData$Interest.Rate), b=0)
 
 hist(as.numeric(loansData$FICO.Range))
 axis(1,1:40, levels(loansData$FICO.Range))
+
+# Plot of interest rate versus FICO score colored by loan length
+str(loansData$Loan.Length)
+levels(loansData$Loan.Length)
+plot(extraData$Interest.Rate, loansData$FICO.Range, col=as.numeric(loansData$Loan.Length))
+dev.copy(png, 'figures/plot04-FICO-score-vs-Interest-Rate-vs-length-65.png')
+dev.off()
+
+#Plot of monthly income versus FICO score
+str(loansData$Monthly.Income)
+plot(log10(loansData$Monthly.Income), loansData$FICO.Range)
+
+# PLot of monthly income versus Interest Rate colored by FICO score
+plot(log10(loansData$Monthly.Income), extraData$Interest.Rate, col=loansData$FICO.Range)
+
+
+#Plot of Interest Rate vs State
+plot(loansData$State, extraData$Interest.Rate)
+plot(loansData$State)
+
+
+# Plot of home ownership versus fico and interest rate.
+plot(extraData$Interest.Rate, loansData$FICO.Range, col=as.numeric(loansData$Home.Ownership))
+
+
+# Plot of interest rate versus debt to income ratio, colored by FICO score
+qplot(extraData$Debt.To.Income.Ratio, extraData$Interest.Rate, col=as.numeric(loansData$FICO.Range))
+str(loansData$Debt.To.Income.Ratio)
+extraData$Debt.To.Income.Ratio <- as.numeric(sub("%","",as.character(loansData$Debt.To.Income.Ratio)))/100
+head(extraData$Debt.To.Income.Ratio)
+
+
+# Plot of FICO range versus interest rate colored by Employment Length
+str(loansData$Employment.Length)
+summary(loansData$Employment.Length)
+
+# Plot of interest rate versus revolving balance colored by FICO score
+
+qplot(loansData$Revolving.CREDIT.Balance, loansData$FICO.Range)
 

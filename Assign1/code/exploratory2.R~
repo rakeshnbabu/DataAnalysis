@@ -1,0 +1,39 @@
+library(ggplot2)
+
+# Load in data
+source("init.R")
+source("code/loadData.R")
+source("code/dataMunging.R")
+
+attach(loansData)
+
+str(loansData)
+
+
+qplot(FICO.Num, Interest.Rate)
+
+qplot(Home.Ownership, Interest.Rate)
+
+qplot(Inquiries.in.the.Last.6.Months, Interest.Rate, col=FICO.Num)
+
+qplot(Employment.Length.Num, Interest.Rate, col=FICO.Num)
+qplot(Employment.Length.Num, FICO.Num)
+
+qplot(Revolving.CREDIT.Balance, Interest.Rate, col=FICO.Num)
+qplot(Revolving.CREDIT.Balance, FICO.Num)
+
+qplot(Open.CREDIT.Lines, Interest.Rate, col=FICO.Num)
+
+qplot(Monthly.Income, Interest.Rate)
+
+qplot(Loan.Purpose, State)
+qplot(Loan.Purpose)
+boxplot(Interest.Rate ~ Loan.Purpose)
+boxplot(Employment.Length ~ Loan.Purpose)
+
+hist(Inquiries.in.the.Last.6.Months) 
+
+multRegFit <- lm(Interest.Rate ~ FICO.Num + Loan.Length + Monthly.Income + Revolving.CREDIT.Balance + Inquiries.in.the.Last.6.Months + Amount.Requested)
+summary(multRegFit)
+layout(matrix(1:4,2,2)) 
+plot(multRegFit)
