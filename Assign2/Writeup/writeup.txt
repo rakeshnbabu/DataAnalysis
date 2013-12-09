@@ -1,0 +1,31 @@
+A Method to Identify User Activities from Smartphone-Derived Gyroscope Data
+
+
+Introduction
+
+At their outset, smartphones were prohibitively expensive to enjoy a large user base. However, as technology evolved and users became more computer savvy, these devices have become ubiquitous. Their powerful computer processors and impressive array of electronic gadgets have made them indisposible for keeping our worlds connected. 
+
+Most smartphones sold today contain a gyroscope, which is intended to allow the phone to detect its orientation and automatically rotate the screen to face upwards. However, it is not unrealistic to suppose that, given the sensitivity of the gyroscope (driven in part by games controlled by tilting the device), the smartphone would be able to determine what the user is currently doing. For instance, if the user is walking with the phone in his pocket, the gyroscope readings would likely be different from how it behaves when the user is lying down.
+
+The Human Activity Recognition Using Smartphones project collected data from the gyroscope of the Samsung Galaxy S3 smartphone from about 30 users who, with the smartphone logging its gyroscope readings, performed several activities, including walking, standing, and sitting. This analysis  takes a subset of those data and attempts to train a K-Nearest Neighbor classifier to determine a user's activity from the output of the phone gyroscope.
+
+
+Methods
+
+The data is publicly available at ***. All incomplete records defined as records with at least one value of 'NA') will be discarded, and the column "Activity" will be converted into a variable of type Factor. The data will be otherwise used without transformation. The data will be divided into three sets: training, verification, and testing, according to subject. Approximately 50% of the data will be used for training, and 25% of the data for verification and testing.
+
+Selection of the value of K for the K-nearest neighbors will be based on the performance of the classifier on the verification training set, and will be chosen to balance the error incurred by the classifier with the time required for the analysis.
+
+
+Results
+
+The data comprise 7,352 observations of 561 gyroscopic variables. Each of these records were paired with a subject identifier and a String indicating the activity performed. Each subject had an average of *** records, an on average performed each activity *** times. Subjects 1 through 17 were assigned into training, subjects 19 through 25 to verification, and subjects 26 through 30 to testing. This division allotted *** records to the training group, *** records to the verification group, and *** records to the testing group. No records were incomplete, so all 7,352 observations were used in this analysis.
+
+To find the optimal value of K, the K-Nearest Neighbor classifier was run over all values of K from 1 to 10. Figure 1a shows the results of this classification. While the model with K=7 was slightly more performant than the model with K=3, the beefit was modest. Out of concerns for overfitting, the model for the final analysis was chosen to use K=3.
+
+The K=3 model performed well over the test data, with a misclassification rate of 7.67%, which is notably superior to the results from the verification set. Figure 1b shows which activities are misclassified the most frequently. This K-nearest neighbors model misclassified sitting and standing the most frequently. 
+
+
+Discussion
+
+The 92.37% correct classification rate is a respectable rate given the naive approach taken in this data analysis. The simplicity of this approach makes it suitable for a number of applications, including for use in mobile applications. For this analysis, all data was pooled. An analysis which stratified the data by subject may have been more powerful. This classification was affected by the large number of dimensions in the data. By using Singular Value Decomposition and limiting the analysis to a handful of relevant dimensions, the precision of the analysis could have been enhanced. Singular Value Decomposition could also help in differentiating the sitting and standing activities.
